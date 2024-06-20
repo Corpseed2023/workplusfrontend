@@ -1,6 +1,7 @@
 import React, { useRef } from "react"
 import "./ScreenPhoto.scss"
 import { Link } from "react-router-dom"
+import { Modal } from "antd"
 
 const ScreenPhoto = ({ index, image, time, date }) => {
   const imgRef = useRef()
@@ -8,7 +9,7 @@ const ScreenPhoto = ({ index, image, time, date }) => {
   const imageBigger = () => {
     if (imgRef.current) {
       imgRef.current.style.position = "absolute"
-      imgRef.current.style.top = "0px"
+      imgRef.current.style.top = "20px"
       imgRef.current.style.right = "0px"
       imgRef.current.style.left = "0px"
       imgRef.current.style.bottom = "0px"
@@ -42,7 +43,7 @@ const ScreenPhoto = ({ index, image, time, date }) => {
         <img onClick={imageBigger} src={image} />
         <i
           onClick={imageSmaller}
-          class={`fa-solid cross-click fa-circle-xmark`}
+          className={`fa-solid cross-click fa-circle-xmark`}
         ></i>
       </div>
       <div className="sm-date">
@@ -62,6 +63,10 @@ const ScreenPhoto = ({ index, image, time, date }) => {
           </Link>
         </div>
       </div>
+
+      <Modal >
+        <img src={image}/>
+      </Modal>
     </div>
   )
 }

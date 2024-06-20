@@ -50,7 +50,7 @@ const SideBar = () => {
   const data = {
     email: userEmail,
     localDate: formattedDate,
-  }
+  } 
 
   const sendReportFunction = async () => {
     if (window.confirm("Are you want to Send Your Report ?") == true) {
@@ -124,7 +124,7 @@ const SideBar = () => {
             {/* <SideBarBtn
               linkPath={`userlist`}
               name="User List Gap"
-              icon={<i class="fa-solid fa-users"></i>}
+              icon={<i className="fa-solid fa-users"></i>}
             /> */}
           </>
         ) : (
@@ -134,20 +134,20 @@ const SideBar = () => {
         <SideBarBtn
           linkPath={`gap`}
           name="Gap"
-          icon={<i class="fa-solid fa-arrows-left-right-to-line"></i>}
+          icon={<i className="fa-solid fa-arrows-left-right-to-line"></i>}
         />
 
         <CmBtn
           className="side-btn hover-w"
           onClick={sendReportFunction}
           data={`Send Report`}
-          icon={<i class="fa-solid mr-2 fa-share-from-square"></i>}
+          icon={<i className="fa-solid mr-2 fa-share-from-square"></i>}
         />
         <CmBtn
           className="side-btn hover-w"
           onClick={logoutUser}
           data={`Logout`}
-          icon={<i class="fa-solid mr-2 fa-right-from-bracket"></i>}
+          icon={<i className="fa-solid mr-2 fa-right-from-bracket"></i>}
         />
       </div>
     </div>

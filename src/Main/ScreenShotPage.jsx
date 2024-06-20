@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import TableScalaton from "../Components/TableScalaton"
 import NoRecordAdded from "../Components/NoRecordAdded"
+import ScreenCard from "../Components/ScreenCard"
 
 const ScreenShotPage = () => {
   const [filterDate, setFilterDate] = useState(
@@ -46,7 +47,7 @@ const ScreenShotPage = () => {
             value={filterDate}
             onChange={(e) => setFilterDate(e.target.value)}
           />
-        <CmBtn data={`Add Filter`} onClick={filterCurrentData} />
+          <CmBtn data={`Add Filter`} onClick={filterCurrentData} />
         </div>
       </div>
       {screenshotLoading && <TableScalaton />}
@@ -54,8 +55,15 @@ const ScreenShotPage = () => {
       {allScreenshot && !screenshotLoading && !screenshotError && (
         <div className="three-item">
           {allScreenshot?.map((img, index) => (
-            <ScreenPhoto
+            // <ScreenPhoto
+            //   key={index}
+            //   image={img?.screenshotUrl}
+            //   time={new Date(img?.screenshotTime).toLocaleTimeString()}
+            //   date={new Date(img?.screenshotTime).toLocaleDateString()}
+            // />
+            <ScreenCard
               key={index}
+              index={index}
               image={img?.screenshotUrl}
               time={new Date(img?.screenshotTime).toLocaleTimeString()}
               date={new Date(img?.screenshotTime).toLocaleDateString()}

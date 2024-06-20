@@ -17,3 +17,52 @@
     align-items: center;
     padding: 5px 10px;
   }
+
+  .big-view-image {
+    height: auto;
+    width: 100%;
+    object-fit: contain; /* Ensures the entire image is visible without cropping */
+    max-width: 100%; /* Ensures the image doesn't exceed the modal width */
+    cursor: pointer;
+  }
+.flex-left-center{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 2px;
+}
+.flex-right-center{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  z-index: 1000;
+}
+
+.full-screen-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 24px;
+}

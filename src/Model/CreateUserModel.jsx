@@ -8,6 +8,7 @@ import { createUserFun } from "../Toolkit/AllUsersSlice"
 
 const CreateUserModel = () => {
   const currId = useSelector((prev) => prev?.auth?.currentUser?.data)
+  
   const {
     createNewUser: newUser,
     newuserLoading,

@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { getQuery } from "../API/GetQuery"
 import { postQuery } from "../API/PostQuery"
 import { deleteQuery } from "../API/DeleteQuery"
+import { putQuery } from "../API/PutQuery"
+import { userPutQuery } from "../API/UserPutQuery"
 
 export const allUsersFun = createAsyncThunk("all-users-data", async () => {
   const getUsersData = await getQuery(
@@ -20,6 +22,11 @@ export const createUserFun = createAsyncThunk(
     return createUser?.data
   }
 )
+
+export const editUserFun=createAsyncThunk('edituser',async(data)=>{
+  const response = await userPutQuery(`${process.env.REACT_APP_BASE_URL}editUser?userId=${data?.id}`,data)
+  return response.data
+})
 
 export const deleteUserFun = createAsyncThunk(
   "delete-all-users",
@@ -112,6 +119,10 @@ export const AllUsersSlice = createSlice({
       state.singleUserLoading = false
       state.singleUserError = true
     })
+
+ 
+
+
   },
 })
 

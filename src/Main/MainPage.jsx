@@ -11,6 +11,7 @@ import getHoursMinutesDifference from "../data/dateFunctions"
 import ProcessDataComp from "../Components/ProcessDataComp"
 import CmBtn from "../Components/CmBtn"
 import { DailyActivityFun } from "../Toolkit/DailyActivitySlice"
+import dayjs from "dayjs"
 
 const MainPage = () => {
   const [filterDate, setFilterDate] = useState(
@@ -47,6 +48,8 @@ const MainPage = () => {
     gapTime,
     logoutTime,
   } = mainData
+
+  console.log("maintimedata", loginTimeConvention)
 
   const filterCurrentData = () => {
     setDateFilterDep((prev) => !prev)
@@ -103,26 +106,33 @@ const MainPage = () => {
           heading="Arrival Time"
           data={fakeData}
           contant={
+            // loginTime !== null
+            //   ? new Date(loginTime).getHours().toString().padStart(2, "0") +
+            //     ":" +
+            //     new Date(loginTime).getMinutes().toString().padStart(2, "0") +
+            //     " " +
+            //     loginTimeConvention
+            //   : "NULL"
+
             loginTime !== null
-              ? new Date(loginTime).getHours().toString().padStart(2, "0") +
-                ":" +
-                new Date(loginTime).getMinutes().toString().padStart(2, "0") +
-                " " +
-                loginTimeConvention
-              : "NULL"
+              ? dayjs(loginTime).format("hh:mm A").toLowerCase()
+              : "null"
           }
         />
         <CardDesign
           heading="Left Time"
           data={fakeData}
           contant={
+            // logoutTime !== null
+            //   ? new Date(logoutTime).getHours().toString().padStart(2, "0") +
+            //     ":" +
+            //     new Date(logoutTime).getMinutes().toString().padStart(2, "0") +
+            //     " " +
+            //     logoutTimeConvention
+            //   : "NULL"
             logoutTime !== null
-              ? new Date(logoutTime).getHours().toString().padStart(2, "0") +
-                ":" +
-                new Date(logoutTime).getMinutes().toString().padStart(2, "0") +
-                " " +
-                logoutTimeConvention
-              : "NULL"
+            ? dayjs(logoutTime).format("hh:mm A").toLowerCase()
+            : "null"
           }
         />
         <CardDesign
@@ -137,7 +147,7 @@ const MainPage = () => {
           }
         />
         <CardDesign
-          heading="Today Report Time"
+          heading="Today's Report Time"
           data={fakeData}
           contant={
             logoutTime !== null
@@ -162,12 +172,12 @@ const MainPage = () => {
           contant={`${productivePercentage ? productivePercentage : "NULL"} %`}
         />
         <CardDesign
-          heading="Today Presence"
+          heading="Today's Presence"
           data={fakeData}
           contant={`${attendanceType ? attendanceType : "NULL"} `}
         />
         <CardDesign
-          heading="Today Break Time"
+          heading="Today's Break Time"
           data={fakeData}
           contant={`${gapTime ? gapTime : "NULL"} minutes`}
         />

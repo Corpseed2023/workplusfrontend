@@ -7,6 +7,8 @@ import TableComp from "../Components/TableComp"
 import CmModel from "../Model/CmModel"
 import CreateUserModel from "../Model/CreateUserModel"
 import { Link, useLocation } from "react-router-dom"
+import { Modal } from "antd"
+import CreateUserNEditModal from "../Model/CreateUserNEditModal"
 
 const AllUsers = () => {
   const dispatch = useDispatch()
@@ -60,7 +62,18 @@ const AllUsers = () => {
       field: "role",
       headerName: "Role",
       width: 100,
-      renderCell: (props) => <p>{props?.row?.roles[0]}</p>,
+      renderCell: (props) => <p>{props?.row?.roles}</p>,
+    },
+    {
+      field: "Edit",
+      headerName: "Edit",
+      width: 90,
+      renderCell: (props) => (
+        <CreateUserNEditModal data={props?.row} edit={true} modalTitle={'Edit user'} />
+        // <p onClick={() => deleteExistUserFun(props?.row?.id)}>
+        //   <i className="fa-solid fa-trash"></i>
+        // </p>
+      ),
     },
     {
       field: "Delete",
@@ -84,13 +97,16 @@ const AllUsers = () => {
               : pathname ===  '/workplus/userlist' ? "All User List" : "All Users Screenshot"
           }
         />
-        <CmModel
+        {/* <CmModel
           data={`Create New user`}
           modelhead={"create User"}
           modelId={`createUserModel`}
         >
           <CreateUserModel />
-        </CmModel>
+        </CmModel> */}
+       
+        <CreateUserNEditModal edit={false} modalTitle={'Create user'} />
+    
       </div>
       <TableComp
         loading={userLoading}

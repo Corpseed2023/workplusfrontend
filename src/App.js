@@ -15,51 +15,67 @@ import { useSelector } from "react-redux"
 import AddNewIP from "./Main/AddNewIP"
 import MonthlyReport from "./Main/MonthlyReport"
 import GapPage from "./Main/GapPage"
+import { ConfigProvider } from "antd"
 
 function App() {
   const authStatus = useSelector((state) => state.auth.isAuth)
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<Signup />} />
+      <ConfigProvider theme={{
+        components:{
+          Card:{
+            colorBorderSecondary:'#c6c8cb',
+            padding:8,
+            actionsLiMargin:0,
+            borderRadius:4,
+            borderRadiusLG:6,
+          }
+        }
+      }}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<Signup />} />
 
-          <Route
-            path="/workplus"
-            element={authStatus ? <MainOutlet /> : <Navigate to="/login" />}
-          >
-            <Route path="" element={<MainPage />} />
-            <Route path="gap" element={<GapPage />} />
+            <Route
+              path="/workplus"
+              element={authStatus ? <MainOutlet /> : <Navigate to="/login" />}
+            >
+              <Route path="" element={<MainPage />} />
+              <Route path="gap" element={<GapPage />} />
 
-            <Route path="ipaddress" element={<AddNewIP />} />
-            <Route
-              path="screenshot"
-              element={authStatus ? <AllUsers /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="screenshot/:useremail"
-              element={
-                authStatus ? <ScreenShotPage /> : <Navigate to="/login" />
-              }
-            />
-            <Route path="reports" element={<AllReportsUser />}>
-              <Route path="" element={<ReportsPage />} />
-              <Route path=":useremail" element={<SingleUserMonthlyReport />} />
+              <Route path="ipaddress" element={<AddNewIP />} />
+              <Route
+                path="screenshot"
+                element={authStatus ? <AllUsers /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="screenshot/:useremail"
+                element={
+                  authStatus ? <ScreenShotPage /> : <Navigate to="/login" />
+                }
+              />
+              <Route path="reports" element={<AllReportsUser />}>
+                <Route path="" element={<ReportsPage />} />
+                <Route
+                  path=":useremail"
+                  element={<SingleUserMonthlyReport />}
+                />
+              </Route>
+              <Route path="monthly-report" element={<MonthlyReport />} />
+
+              <Route path="userlist" element={<AllUsers />} />
+              <Route path="userlist/:useremail" element={<GapPage />} />
+
+              <Route path="users" element={<AllUsers />} />
+              <Route path="users/:useremail" element={<SingleUserPage />} />
             </Route>
-            <Route path="monthly-report" element={<MonthlyReport />} />
-
-            <Route path="userlist" element={<AllUsers />} />
-            <Route path="userlist/:useremail" element={<GapPage />} />
-
-            <Route path="users" element={<AllUsers />} />
-            <Route path="users/:useremail" element={<SingleUserPage />} />
-          </Route>
-          <Route path="*" element={<h1>Page Not Found</h1>} />
-        </Routes>
-      </BrowserRouter>
+            <Route path="*" element={<h1>Page Not Found</h1>} />
+          </Routes>
+        </BrowserRouter>
+      </ConfigProvider>
     </div>
   )
 }

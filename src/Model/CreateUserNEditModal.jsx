@@ -43,7 +43,6 @@ const CreateUserNEditModal = ({ edit, data, modalTitle }) => {
       } else {
         values.createdBy = currId?.id
         dispatch(createUserFun(values))
-        window.location.reload()
         setOpenModal(false)
       }
     },

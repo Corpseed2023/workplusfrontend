@@ -34,9 +34,16 @@ const SingleUserPage = () => {
 
   const changeUser = useSelector((prev) => prev?.alluser?.singleUser?.data)
 
- 
-  const { loginTime, present, dayOfWeek, loginTimeConvention, logoutTimeConvention, logoutTime } =
-    mainData
+  const {
+    loginTime,
+    present,
+    dayOfWeek,
+    loginTimeConvention,
+    logoutTimeConvention,
+    logoutTime,
+    attendanceType,
+    gapTime,
+  } = mainData
 
   const filterCurrentData = () => {
     setDateFilterDep((prev) => !prev)
@@ -51,10 +58,8 @@ const SingleUserPage = () => {
 
   const data3 = new Date(logoutTime)
   const data4 = new Date(loginTime)
-  const { hours: userHoursOut, minutes: userMinutesOut } = getHoursMinutesDifference(
-    data3,
-    data4
-  )
+  const { hours: userHoursOut, minutes: userMinutesOut } =
+    getHoursMinutesDifference(data3, data4)
 
   const productivePercentage = getProductivePercentage(userHours, userMinutes)
 
@@ -101,9 +106,9 @@ const SingleUserPage = () => {
           data={fakeData}
           contant={
             loginTime !== null
-              ? new Date(loginTime).getHours().toString().padStart(2, '0') +
+              ? new Date(loginTime).getHours().toString().padStart(2, "0") +
                 ":" +
-                new Date(loginTime).getMinutes().toString().padStart(2, '0') +
+                new Date(loginTime).getMinutes().toString().padStart(2, "0") +
                 " " +
                 loginTimeConvention
               : "NULL"
@@ -114,10 +119,11 @@ const SingleUserPage = () => {
           data={fakeData}
           contant={
             logoutTime !== null
-              ? new Date(logoutTime).getHours().toString().padStart(2, '0') +
+              ? new Date(logoutTime).getHours().toString().padStart(2, "0") +
                 ":" +
-                new Date(logoutTime).getMinutes().toString().padStart(2, '0') +
-                " " + logoutTimeConvention
+                new Date(logoutTime).getMinutes().toString().padStart(2, "0") +
+                " " +
+                logoutTimeConvention
               : "NULL"
           }
         />
@@ -125,14 +131,20 @@ const SingleUserPage = () => {
           heading="Desk Time"
           data={fakeData}
           contant={
-            loginTime !== null ? userHours > 10 ? `10h 00m` :  `${userHours}h ${userMinutes}m` : "NULL"
+            loginTime !== null
+              ? userHours > 10
+                ? `10h 00m`
+                : `${userHours}h ${userMinutes}m`
+              : "NULL"
           }
         />
-         <CardDesign
+        <CardDesign
           heading="Today Report Time"
           data={fakeData}
           contant={
-            logoutTime !== null ? `${userHoursOut}h ${userMinutesOut}m` : "0h 0m"
+            logoutTime !== null
+              ? `${userHoursOut}h ${userMinutesOut}m`
+              : "0h 0m"
           }
         />
         <CardDesign
@@ -151,9 +163,23 @@ const SingleUserPage = () => {
           data={fakeData}
           contant={`${productivePercentage ? productivePercentage : "NULL"} %`}
         />
+        <CardDesign
+          heading="Today's Presence"
+          data={fakeData}
+          contant={attendanceType !== null ? attendanceType : "NULL"}
+        />
+        <CardDesign
+          heading="Today's Break Time"
+          data={fakeData}
+          contant={`${gapTime ? gapTime : "NULL"}`}
+        />
       </div>
 
-      <ProcessDataComp date={filterDate} pro={singlePro} dateFilterDep={dateFilterDep} />
+      <ProcessDataComp
+        date={filterDate}
+        pro={singlePro}
+        dateFilterDep={dateFilterDep}
+      />
     </CmGap>
   )
 }

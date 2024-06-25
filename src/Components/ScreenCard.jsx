@@ -33,7 +33,7 @@ const ScreenCard = ({ index, image, time, date }) => {
         </Row>,
       ]}
     >
-      <div className="image-box">
+      {/* <div className="image-box">
         <img
           src={image}
           onClick={() => setIsViewerOpen(true)}
@@ -48,7 +48,8 @@ const ScreenCard = ({ index, image, time, date }) => {
           index={index}
           onClose={handleCloseViewer}
         />
-      )}
+      )} */}
+      <FullScreenImageViewer src={image}/>
     </Card>
   )
 }

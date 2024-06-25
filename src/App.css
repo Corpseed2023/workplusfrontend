@@ -218,3 +218,15 @@ body {
   }
 }
 
+.reason-text{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flex-justify-center{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}

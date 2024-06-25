@@ -30,6 +30,8 @@ const MainPage = () => {
     loginTime: new Date(),
   })
 
+  
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -106,14 +108,6 @@ const MainPage = () => {
           heading="Arrival Time"
           data={fakeData}
           contant={
-            // loginTime !== null
-            //   ? new Date(loginTime).getHours().toString().padStart(2, "0") +
-            //     ":" +
-            //     new Date(loginTime).getMinutes().toString().padStart(2, "0") +
-            //     " " +
-            //     loginTimeConvention
-            //   : "NULL"
-
             loginTime !== null
               ? dayjs(loginTime).format("hh:mm A").toLowerCase()
               : "null"
@@ -123,13 +117,6 @@ const MainPage = () => {
           heading="Left Time"
           data={fakeData}
           contant={
-            // logoutTime !== null
-            //   ? new Date(logoutTime).getHours().toString().padStart(2, "0") +
-            //     ":" +
-            //     new Date(logoutTime).getMinutes().toString().padStart(2, "0") +
-            //     " " +
-            //     logoutTimeConvention
-            //   : "NULL"
             logoutTime !== null
             ? dayjs(logoutTime).format("hh:mm A").toLowerCase()
             : "null"
@@ -179,7 +166,7 @@ const MainPage = () => {
         <CardDesign
           heading="Today's Break Time"
           data={fakeData}
-          contant={`${gapTime ? gapTime : "NULL"} minutes`}
+          contant={`${gapTime ? gapTime : "NULL "}`}
         />
       </div>
 

@@ -5,13 +5,16 @@ import { useDispatch, useSelector } from "react-redux"
 import { allGapFun } from "../Toolkit/AllGapSlice"
 import TableComp from "../Components/TableComp"
 import { useParams } from "react-router-dom"
+import dayjs from "dayjs"
+import GapReasonModal from "../Model/GapReasonModal"
+
 
 const GapPage = () => {
   const [filterDate, setFilterDate] = useState("")
 
   console.log(filterDate)
 
-  const {useremail} = useParams();
+  const { useremail } = useParams()
 
   const { email } = useSelector((prev) => prev?.auth?.currentUser?.data)
 
@@ -28,7 +31,9 @@ const GapPage = () => {
     dispatch(allGapFun(gapParam))
   }, [dispatch, filterDate])
 
-  const { allGapData, gapLoading, gapError } = useSelector((prev) => prev?.gap)
+  const { allGapData, gapError, gapLoading } = useSelector((prev) => prev?.gap)
+
+  const data = useSelector((prev) => prev?.gap)
 
   const columns = [
     {
@@ -36,7 +41,7 @@ const GapPage = () => {
       headerName: "ID",
       width: 80,
       renderCell: (props) => (
-        <p>{props.row.index + 1}</p> // Adding 1 to make index 1-based
+        <p>{props.row.id + 1}</p> // Adding 1 to make index 1-based
       ),
     },
     {
@@ -49,7 +54,7 @@ const GapPage = () => {
       headerName: "Gap Start Time",
       width: 150,
       renderCell: (props) => (
-        <p>{new Date(props?.row?.gapStartTime).toLocaleTimeString()}</p>
+        <p>{dayjs(props?.row?.lastOfflineTime).format("HH:mm:ss")}</p>
       ),
     },
     {
@@ -57,7 +62,7 @@ const GapPage = () => {
       headerName: "Gap End Time",
       width: 150,
       renderCell: (props) => (
-        <p>{new Date(props?.row?.gapEndTime).toLocaleTimeString()}</p>
+        <p>{dayjs(props?.row?.lastOnlineTime).format("HH:mm:ss")}</p>
       ),
     },
     {
@@ -65,16 +70,26 @@ const GapPage = () => {
       headerName: "Gap Time",
       width: 150,
     },
+    {
+      field: "reason",
+      headerName: "Reason",
+      width: 150,
+      renderCell: (props) => <GapReasonModal data={props?.row} />,
+    },
   ]
 
-  const gapReport = allGapData.map((report, index) => ({
+  const gapReport = allGapData?.gapDetails?.map((report, index) => ({
     ...report,
-    index,
+    id: index,
+    date: allGapData?.date,
   }))
 
-  const totalGapMinute = allGapData.reduce((accumulator, item) => accumulator + parseInt(item.gapTime), 0);
+  const totalGapMinute = allGapData?.gapDetails?.reduce(
+    (accumulator, item) => accumulator + parseInt(item.gapTime),
+    0
+  )
 
-  console.log("total gap minute", totalGapMinute);
+  console.log("total gap minute", allGapData)
 
   console.log(gapReport)
 
@@ -93,7 +108,9 @@ const GapPage = () => {
       </div>
 
       <div className="gap-time">
-        <p>GapTime Total is : <b>{totalGapMinute}</b> Minute</p>
+        <p>
+          GapTime Total is : <b>{totalGapMinute}</b> Minute
+        </p>
       </div>
 
       <TableComp

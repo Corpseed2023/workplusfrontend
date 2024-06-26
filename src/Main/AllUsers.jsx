@@ -7,8 +7,9 @@ import TableComp from "../Components/TableComp"
 import CmModel from "../Model/CmModel"
 import CreateUserModel from "../Model/CreateUserModel"
 import { Link, useLocation } from "react-router-dom"
-import { Modal } from "antd"
+import { Button, Modal } from "antd"
 import CreateUserNEditModal from "../Model/CreateUserNEditModal"
+import { Icon } from "@iconify/react"
 
 const AllUsers = () => {
   const dispatch = useDispatch()
@@ -19,7 +20,7 @@ const AllUsers = () => {
 
   const { pathname } = useLocation()
 
-  console.log(pathname);
+  console.log(pathname)
 
   const { deleteUser, deluserLoading, delUserError } = useSelector(
     (prev) => prev?.alluser
@@ -65,14 +66,27 @@ const AllUsers = () => {
       renderCell: (props) => <p>{props?.row?.roles}</p>,
     },
     {
+      field: "gap",
+      headerName: "Gap",
+      width: 100,
+      renderCell: (props) => (
+        <Link to={`gap/${props?.row?.email}`}>
+          <Button size="small" type="primary">
+            View Gap
+          </Button>
+        </Link>
+      ),
+    },
+    {
       field: "Edit",
       headerName: "Edit",
       width: 90,
       renderCell: (props) => (
-        <CreateUserNEditModal data={props?.row} edit={true} modalTitle={'Edit user'} />
-        // <p onClick={() => deleteExistUserFun(props?.row?.id)}>
-        //   <i className="fa-solid fa-trash"></i>
-        // </p>
+        <CreateUserNEditModal
+          data={props?.row}
+          edit={true}
+          modalTitle={"Edit user"}
+        />
       ),
     },
     {
@@ -80,9 +94,16 @@ const AllUsers = () => {
       headerName: "Delete",
       width: 90,
       renderCell: (props) => (
-        <p onClick={() => deleteExistUserFun(props?.row?.id)}>
-          <i className="fa-solid fa-trash"></i>
-        </p>
+        // <p onClick={() => deleteExistUserFun(props?.row?.id)}>
+        //   <i className="fa-solid fa-trash"></i>
+        // </p>
+        <Button
+          danger
+          size="small"
+          onClick={() => deleteExistUserFun(props?.row?.id)}
+        >
+          <Icon icon="fluent:delete-20-filled" />
+        </Button>
       ),
     },
   ]
@@ -94,7 +115,9 @@ const AllUsers = () => {
           data={
             pathname === "/workplus/users"
               ? `All Users Report`
-              : pathname ===  '/workplus/userlist' ? "All User List" : "All Users Screenshot"
+              : pathname === "/workplus/userlist"
+              ? "All User List"
+              : "All Users Screenshot"
           }
         />
         {/* <CmModel
@@ -104,9 +127,8 @@ const AllUsers = () => {
         >
           <CreateUserModel />
         </CmModel> */}
-       
-        <CreateUserNEditModal edit={false} modalTitle={'Create user'} />
-    
+
+        <CreateUserNEditModal edit={false} modalTitle={"Create user"} />
       </div>
       <TableComp
         loading={userLoading}

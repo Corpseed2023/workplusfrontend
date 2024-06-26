@@ -71,6 +71,7 @@ function App() {
 
               <Route path="users" element={<AllUsers />} />
               <Route path="users/:useremail" element={<SingleUserPage />} />
+              <Route path="users/gap/:useremail" element={<GapPage />} />
             </Route>
             <Route path="*" element={<h1>Page Not Found</h1>} />
           </Routes>

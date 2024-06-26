@@ -3,7 +3,12 @@ import CmModel from "./CmModel"
 import CreateUserModel from "./CreateUserModel"
 import { Button, Form, Input, Modal, Select } from "antd"
 import { useDispatch, useSelector } from "react-redux"
-import { allUsersFun, createUserFun, editUserFun } from "../Toolkit/AllUsersSlice"
+import {
+  allUsersFun,
+  createUserFun,
+  editUserFun,
+} from "../Toolkit/AllUsersSlice"
+import { Icon } from "@iconify/react"
 
 const CreateUserNEditModal = ({ edit, data, modalTitle }) => {
   const currId = useSelector((prev) => prev?.auth?.currentUser?.data)
@@ -33,13 +38,12 @@ const CreateUserNEditModal = ({ edit, data, modalTitle }) => {
         values.updatedBy = currId?.id
         values.id = data?.id
         // dispatch(editUserFun(values))
-        dispatch(editUserFun(values))
-          .then((action) => {
-            if (editUserFun.fulfilled.match(action)) {
-              dispatch(allUsersFun());
-              setOpenModal(false);
-            }
-          });
+        dispatch(editUserFun(values)).then((action) => {
+          if (editUserFun.fulfilled.match(action)) {
+            dispatch(allUsersFun())
+            setOpenModal(false)
+          }
+        })
       } else {
         values.createdBy = currId?.id
         dispatch(createUserFun(values))
@@ -57,8 +61,9 @@ const CreateUserNEditModal = ({ edit, data, modalTitle }) => {
       <Button
         onClick={() => setOpenModal(true)}
         type={edit ? "default" : "primary"}
+        size={edit ? "small" : "middle"}
       >
-        {edit ? "Edit" : "Create user"}
+        {edit ? <Icon icon="fluent:edit-20-filled" /> : "Create user"}
       </Button>
 
       <Modal

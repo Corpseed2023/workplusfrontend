@@ -195,6 +195,14 @@ body {
   align-items: center;
 }
 
+.gapuser-details{
+  display: flex;
+  gap: 12px
+}
+.gapuser-details h6{
+  font-weight: bold;
+}
+
 .gap-time p {
   padding: 10px;
   margin: 10px 0px;

@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom"
 import dayjs from "dayjs"
 import GapReasonModal from "../Model/GapReasonModal"
 
-
 const GapPage = () => {
   const [filterDate, setFilterDate] = useState("")
 
@@ -89,7 +88,7 @@ const GapPage = () => {
     0
   )
 
-  console.log("total gap minute", allGapData)
+  console.log("total gap minute", allGapData?.userName)
 
   console.log(gapReport)
 
@@ -111,6 +110,10 @@ const GapPage = () => {
         <p>
           GapTime Total is : <b>{totalGapMinute}</b> Minute
         </p>
+      </div>
+      <div className="gapuser-details">
+        <h6>UserName : {allGapData?.userName}</h6>
+        <h6>UserEmail : {allGapData?.userEmail}</h6>
       </div>
 
       <TableComp

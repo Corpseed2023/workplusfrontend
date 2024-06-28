@@ -11,6 +11,9 @@ const ScreenCard = ({ index, image, time, date }) => {
     setIsViewerOpen(false)
   }
 
+
+  
+
   return (
     <Card
       key={index}

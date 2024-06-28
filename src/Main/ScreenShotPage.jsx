@@ -73,9 +73,9 @@ const ScreenShotPage = () => {
               image={img?.screenshotUrl}
               id={img?.id}
               // time={new Date(img?.screenshotTime).toLocaleTimeString()}
-              time={dayjs.utc(img?.screenshotTime).format('hh:mm A')}
+              time={dayjs.utc(img?.screenshotTime).add(5, 'hour').format('hh:mm A')}
               // date={new Date(img?.screenshotTime).toLocaleDateString()}
-              date={dayjs.utc(img?.screenshotTime).format("DD/MM/YYYY")}
+              date={dayjs.utc(img?.screenshotTime).add(5, 'hour').format("DD/MM/YYYY")}
             />
           ))}
         </div>

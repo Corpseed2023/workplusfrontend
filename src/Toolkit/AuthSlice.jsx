@@ -9,6 +9,13 @@ export const authDataFun = createAsyncThunk("auth-user", async (data) => {
   return userApiRes
 })
 
+export const forgotPassword = createAsyncThunk("forgotPass", async (data) => {
+  const response = await postQuery(
+    `${process.env.REACT_APP_BASE_URL}forgotPassword?email=${data?.email}&password=${data?.password}`
+  )
+  return response.data
+})
+
 export const AuthSlice = createSlice({
   name: "auth",
   initialState: {
@@ -16,6 +23,7 @@ export const AuthSlice = createSlice({
     loading: false,
     error: false,
     isAuth: false,
+    forgotLoading: "",
   },
   reducers: {
     logoutFun: (state, action) => {
@@ -37,6 +45,15 @@ export const AuthSlice = createSlice({
     builder.addCase(authDataFun.rejected, (state, action) => {
       state.loading = false
       state.error = true
+    })
+    builder.addCase(forgotPassword.pending, (state, action) => {
+      state.forgotLoading = "pending"
+    })
+    builder.addCase(forgotPassword.fulfilled, (state, action) => {
+      state.forgotLoading = "success"
+    })
+    builder.addCase(forgotPassword.rejected, (state, action) => {
+      state.forgotLoading = "rejected"
     })
   },
 })

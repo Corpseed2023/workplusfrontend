@@ -1,5 +1,6 @@
 import axios from "axios"
 
-export const deleteQuery = (URL) => {
-  return axios.delete(URL, {})
+export const deleteQuery = (URL,data) => {
+  console.log('deleetyetete',URL,data)
+  return axios.delete(URL,{data})
 }

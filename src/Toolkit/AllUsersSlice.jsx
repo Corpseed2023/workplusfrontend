@@ -23,8 +23,11 @@ export const createUserFun = createAsyncThunk(
   }
 )
 
-export const editUserFun=createAsyncThunk('edituser',async(data)=>{
-  const response = await userPutQuery(`${process.env.REACT_APP_BASE_URL}editUser?userId=${data?.id}`,data)
+export const editUserFun = createAsyncThunk("edituser", async (data) => {
+  const response = await userPutQuery(
+    `${process.env.REACT_APP_BASE_URL}editUser?userId=${data?.id}`,
+    data
+  )
   return response.data
 })
 
@@ -47,6 +50,13 @@ export const getCurrentUserFun = createAsyncThunk(
     return getSingleUser
   }
 )
+export const deleteUsers = createAsyncThunk("deleteUsersIn", async (data) => {
+  const response = await deleteQuery(
+    `${process.env.REACT_APP_BASE_URL}deleteUsers`,
+    data
+  )
+  return response.data
+})
 
 export const AllUsersSlice = createSlice({
   name: "alluser",
@@ -63,6 +73,8 @@ export const AllUsersSlice = createSlice({
     singleUser: {},
     singleUserLoading: false,
     singleUserError: false,
+    multiUserDeleteLoading: "",
+    multiUserDeleteError: "",
   },
   extraReducers: (builder) => {
     builder.addCase(allUsersFun.pending, (state, action) => {
@@ -120,9 +132,17 @@ export const AllUsersSlice = createSlice({
       state.singleUserError = true
     })
 
- 
-
-
+    builder.addCase(deleteUsers.pending, (state, action) => {
+      state.multiUserDeleteLoading = "pending"
+    })
+    builder.addCase(deleteUsers.fulfilled, (state, action) => {
+      state.multiUserDeleteLoading = "success"
+      state.multiUserDeleteError = ""
+    })
+    builder.addCase(deleteUsers.rejected, (state, action) => {
+      state.multiUserDeleteLoading = "rejected"
+      state.multiUserDeleteError = "error"
+    })
   },
 })
 

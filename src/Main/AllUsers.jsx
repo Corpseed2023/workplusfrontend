@@ -1,13 +1,17 @@
-import React, { useEffect } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import CmGap from "../Components/CmGap"
 import MdHeading from "../Components/MdHeading"
-import { allUsersFun, deleteUserFun } from "../Toolkit/AllUsersSlice"
+import {
+  allUsersFun,
+  deleteUserFun,
+  deleteUsers,
+} from "../Toolkit/AllUsersSlice"
 import { useDispatch, useSelector } from "react-redux"
 import TableComp from "../Components/TableComp"
 import CmModel from "../Model/CmModel"
 import CreateUserModel from "../Model/CreateUserModel"
 import { Link, useLocation } from "react-router-dom"
-import { Button, Modal } from "antd"
+import { Button, FloatButton, Modal, Popconfirm, notification } from "antd"
 import CreateUserNEditModal from "../Model/CreateUserNEditModal"
 import { Icon } from "@iconify/react"
 
@@ -17,14 +21,19 @@ const AllUsers = () => {
   const { allUsers, userLoading, userError } = useSelector(
     (prev) => prev?.alluser
   )
+  const [selectedRows, setSelectedRows] = useState([])
 
   const { pathname } = useLocation()
 
   console.log(pathname)
 
-  const { deleteUser, deluserLoading, delUserError } = useSelector(
-    (prev) => prev?.alluser
-  )
+  const {
+    deleteUser,
+    deluserLoading,
+    delUserError,
+    multiUserDeleteLoading,
+    multiUserDeleteError,
+  } = useSelector((prev) => prev?.alluser)
 
   useEffect(() => {
     dispatch(allUsersFun())
@@ -41,7 +50,9 @@ const AllUsers = () => {
   // }
 
   const columns = [
-    { field: "id", headerName: "ID", width: 60 },
+    // { field: "id", 
+    //  headerName: "ID", width: 60 
+    // },
     {
       field: "username",
       headerName: "User Name",
@@ -106,15 +117,35 @@ const AllUsers = () => {
         </Button>
       ),
     },
+
   ]
 
+  const handleDeleteUser = useCallback(() => {
+    dispatch(deleteUsers(selectedRows))
+  }, [selectedRows, dispatch])
+
+  useEffect(() => {
+    if (multiUserDeleteLoading === "success") {
+      notification.success({
+        message: "Users deleted successfully",
+      })
+      setSelectedRows([])
+      dispatch(allUsersFun())
+    } else if (multiUserDeleteLoading === "rejected") {
+      notification.error({
+        message: "Something went wrong",
+      })
+    }
+  }, [multiUserDeleteLoading])
+
+  console.log("allusersSelection", selectedRows)
   return (
     <CmGap>
       <div className="align-between">
         <MdHeading
           data={
             pathname === "/workplus/users"
-              ? `All Users Report`
+              ? `All Users Report (${allUsers?.length})`
               : pathname === "/workplus/userlist"
               ? "All User List"
               : "All Users Screenshot"
@@ -135,7 +166,32 @@ const AllUsers = () => {
         error={userError}
         data={allUsers}
         col={columns}
+        checkbox={pathname === "/workplus/users" ? true : false}
+        setSelectedRows={setSelectedRows}
       />
+      {selectedRows?.length > 0 && (
+        <FloatButton.Group
+          shape="square"
+          style={{
+            right: 600,
+            width: 150,
+            padding: "12px",
+            background: "rgba(0,0,0,0.7)",
+            backgroundColor: "rgba(0,0,0,0.7)",
+            boxShadow:
+              "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;",
+          }}
+        >
+          <Popconfirm
+            description="Are you sure to delete users"
+            onConfirm={handleDeleteUser}
+          >
+            <Button danger icon={<Icon icon="fluent:delete-20-filled" />}>
+              Delete ({selectedRows?.length})
+            </Button>
+          </Popconfirm>
+        </FloatButton.Group>
+      )}
     </CmGap>
   )
 }

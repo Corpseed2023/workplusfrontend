@@ -65,7 +65,7 @@ const LoginPage = () => {
         <button onClick={() => loginUser()} className="login-btn">
           Login
         </button>
-        <Link className="forget-pass">Forget Password ?</Link>
+        <Link to={'/forgotPassword'} className="forget-pass">Forgot Password ?</Link>
         {/* <p className="account-not">
           Don't have an Account{" "}
           <Link className="going-link" to="/signup">

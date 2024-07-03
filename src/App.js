@@ -16,6 +16,7 @@ import AddNewIP from "./Main/AddNewIP"
 import MonthlyReport from "./Main/MonthlyReport"
 import GapPage from "./Main/GapPage"
 import { ConfigProvider } from "antd"
+import ForgotPassword from "./Login/ForgotPassword"
 
 function App() {
   const authStatus = useSelector((state) => state.auth.isAuth)
@@ -38,6 +39,7 @@ function App() {
             <Route path="" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/forgotPassword" element={<ForgotPassword/>} />
 
             <Route
               path="/workplus"

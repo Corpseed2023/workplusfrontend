@@ -1,4 +1,7 @@
 .top-navbar {
+  position: sticky;
+  top:0px;
+  z-index: 1;
   padding: 10px 20px;
   background-color: #fff;
   display: flex;

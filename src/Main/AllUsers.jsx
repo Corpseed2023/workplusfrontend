@@ -5,15 +5,27 @@ import {
   allUsersFun,
   deleteUserFun,
   deleteUsers,
+  handleNextPagination,
+  handlePrevPagination,
 } from "../Toolkit/AllUsersSlice"
 import { useDispatch, useSelector } from "react-redux"
 import TableComp from "../Components/TableComp"
 import CmModel from "../Model/CmModel"
 import CreateUserModel from "../Model/CreateUserModel"
 import { Link, useLocation } from "react-router-dom"
-import { Button, FloatButton, Modal, Popconfirm, notification } from "antd"
+import {
+  Button,
+  FloatButton,
+  Modal,
+  Popconfirm,
+  Typography,
+  notification,
+} from "antd"
 import CreateUserNEditModal from "../Model/CreateUserNEditModal"
 import { Icon } from "@iconify/react"
+import CommonTable from "../Components/CommonTable"
+import { render } from "@testing-library/react"
+const { Text } = Typography
 
 const AllUsers = () => {
   const dispatch = useDispatch()
@@ -33,11 +45,12 @@ const AllUsers = () => {
     delUserError,
     multiUserDeleteLoading,
     multiUserDeleteError,
+    page,
   } = useSelector((prev) => prev?.alluser)
 
   useEffect(() => {
-    dispatch(allUsersFun())
-  }, [dispatch, deleteUser])
+    dispatch(allUsersFun(page))
+  }, [dispatch, deleteUser, page])
 
   const deleteExistUserFun = async (id) => {
     if (window.confirm("Are You Want to Sure ?")) {
@@ -50,8 +63,8 @@ const AllUsers = () => {
   // }
 
   const columns = [
-    // { field: "id", 
-    //  headerName: "ID", width: 60 
+    // { field: "id",
+    //  headerName: "ID", width: 60
     // },
     {
       field: "username",
@@ -117,7 +130,72 @@ const AllUsers = () => {
         </Button>
       ),
     },
+  ]
 
+  const columns1 = [
+    {
+      title: "User name",
+      dataIndex: "username",
+      key: "1",
+      fixed: "left",
+      render: (_, data) => <Link to={`${data?.email}`}>{data?.username}</Link>,
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "2",
+    },
+    {
+      title: "Created date",
+      dataIndex: "createdAt",
+      key: "3",
+      render: (_, data) => (
+        <Text>{new Date(data?.createdAt).toLocaleDateString()}</Text>
+      ),
+    },
+    {
+      title: "Role",
+      dataIndex: "roles",
+      key: "4",
+    },
+    {
+      title: "Gap",
+      dataIndex: "gap",
+      key: "5",
+      render: (_, data) => (
+        <Link to={`gap/${data?.email}`}>
+          <Button size="small" type="primary">
+            View
+          </Button>
+        </Link>
+      ),
+    },
+    {
+      title: "Edit",
+      dataIndex: "edit",
+      key: "6",
+      render: (_, data) => (
+        <CreateUserNEditModal
+          data={data}
+          edit={true}
+          modalTitle={"Edit user"}
+        />
+      ),
+    },
+    {
+      title: "Delete",
+      dataIndex: "delete",
+      key: "7",
+      render: (_, data) => (
+        <Button
+          danger
+          size="small"
+          onClick={() => deleteExistUserFun(data?.id)}
+        >
+          <Icon icon="fluent:delete-20-filled" />
+        </Button>
+      ),
+    },
   ]
 
   const handleDeleteUser = useCallback(() => {
@@ -161,14 +239,25 @@ const AllUsers = () => {
 
         <CreateUserNEditModal edit={false} modalTitle={"Create user"} />
       </div>
-      <TableComp
+      {/* <TableComp
         loading={userLoading}
         error={userError}
         data={allUsers}
         col={columns}
         checkbox={pathname === "/workplus/users" ? true : false}
         setSelectedRows={setSelectedRows}
+      /> */}
+
+      <CommonTable
+        dataSource={allUsers}
+        columns={columns1}
+        rowSelection={true}
+        selectedRowKeys={selectedRows}
+        onRowSelection={(keys) => setSelectedRows(keys)}
+        nextPage={handleNextPagination}
+        prevPage={handlePrevPagination}
       />
+
       {selectedRows?.length > 0 && (
         <FloatButton.Group
           shape="square"

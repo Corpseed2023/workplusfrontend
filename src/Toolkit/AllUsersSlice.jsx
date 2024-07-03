@@ -5,9 +5,11 @@ import { deleteQuery } from "../API/DeleteQuery"
 import { putQuery } from "../API/PutQuery"
 import { userPutQuery } from "../API/UserPutQuery"
 
-export const allUsersFun = createAsyncThunk("all-users-data", async () => {
+export const allUsersFun = createAsyncThunk("all-users-data", async (page) => {
   const getUsersData = await getQuery(
-    `${process.env.REACT_APP_BASE_URL}allUsersList`
+    `${process.env.REACT_APP_BASE_URL}allUsersList?page=${
+      page ? page : 0
+    }&size=${50}`
   )
   return getUsersData?.data
 })
@@ -75,6 +77,15 @@ export const AllUsersSlice = createSlice({
     singleUserError: false,
     multiUserDeleteLoading: "",
     multiUserDeleteError: "",
+    page: 0,
+  },
+  reducers: {
+    handleNextPagination: (state, action) => {
+      state.page = state.page + 1
+    },
+    handlePrevPagination: (state, action) => {
+      state.page = state.page >= 0 ? state.page - 1 : 0
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(allUsersFun.pending, (state, action) => {
@@ -145,5 +156,7 @@ export const AllUsersSlice = createSlice({
     })
   },
 })
+
+export const { handleNextPagination, handlePrevPagination } = AllUsersSlice.actions
 
 export default AllUsersSlice.reducer

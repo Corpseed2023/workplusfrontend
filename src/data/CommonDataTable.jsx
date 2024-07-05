@@ -7,14 +7,12 @@ const CommonDataTable = ({
   columns,
   getRowId,
   checkbox,
-  setSelectedRows,
 }) => {
   return (
     <div style={{ height: "625px", width: "100%" }}>
       <DataGrid
         rows={rows}
         columns={columns}
-        onRowSelectionModelChange={(rows) => setSelectedRows(rows)}
         slots={{
           toolbar: GridToolbar,
         }}

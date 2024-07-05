@@ -253,7 +253,7 @@ const AllUsers = () => {
         columns={columns1}
         rowSelection={true}
         selectedRowKeys={selectedRows}
-        onRowSelection={(keys) => setSelectedRows(keys)}
+        onRowSelection={setSelectedRows}
         nextPage={handleNextPagination}
         prevPage={handlePrevPagination}
       />

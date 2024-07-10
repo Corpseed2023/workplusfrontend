@@ -1,10 +1,8 @@
 import {
-  Badge,
   Button,
   Form,
   Input,
   Modal,
-  Space,
   Tooltip,
   Typography,
 } from "antd"
@@ -23,7 +21,7 @@ const GapReasonModal = ({ data }) => {
   const handleEdit = useCallback(() => {
     setOpenModal(true)
     form.setFieldsValue({ reason: data?.reason })
-  }, [data])
+  }, [data,form])
   const handleFinish = (values) => {
     let temp = {
       email: currUserDetail?.email,
@@ -50,6 +48,7 @@ const GapReasonModal = ({ data }) => {
         onOk={() => form.submit()}
         centered
         onClose={() => setOpenModal(false)}
+        okText='Submit'
       >
         <Form layout="vertical" form={form} onFinish={handleFinish}>
           <Form.Item label="Reason" name="reason">

@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react"
-import CmModel from "./CmModel"
-import CreateUserModel from "./CreateUserModel"
 import { Button, Form, Input, Modal, Select } from "antd"
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -14,14 +12,7 @@ const CreateUserNEditModal = ({ edit, data, modalTitle }) => {
   const currId = useSelector((prev) => prev?.auth?.currentUser?.data)
   const [openModal, setOpenModal] = useState(false)
   const [form] = Form.useForm()
-  const {
-    createNewUser: newUser,
-    newuserLoading,
-    newUserError,
-  } = useSelector((prev) => prev?.alluser)
-
   const dispatch = useDispatch()
-
   const userRoles = useSelector((prev) => prev?.role?.allRoles)
   useEffect(() => {
     form.setFieldsValue({
@@ -29,7 +20,7 @@ const CreateUserNEditModal = ({ edit, data, modalTitle }) => {
       email: data?.email,
       roleNames: data?.roles,
     })
-  }, [data])
+  }, [data,form])
 
   const submitData = useCallback(
     (values) => {
@@ -50,10 +41,9 @@ const CreateUserNEditModal = ({ edit, data, modalTitle }) => {
         setOpenModal(false)
       }
     },
-    [data, currId]
+    [data, currId,dispatch,edit]
   )
 
-  console.log("jkcbivsghi", currId)
 
   return (
     <>
@@ -72,6 +62,7 @@ const CreateUserNEditModal = ({ edit, data, modalTitle }) => {
         onOk={() => form.submit()}
         centered
         onClose={() => setOpenModal(false)}
+        okText="Submit"
       >
         <Form layout="vertical" form={form} onFinish={submitData}>
           <Form.Item
@@ -98,6 +89,9 @@ const CreateUserNEditModal = ({ edit, data, modalTitle }) => {
                 value: item?.roleName,
                 label: item?.roleName,
               }))}
+              filterOption={(input, option) =>
+                option.label.toLowerCase().includes(input.toLowerCase())
+              }
             />
           </Form.Item>
         </Form>

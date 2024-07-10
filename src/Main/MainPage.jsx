@@ -12,8 +12,12 @@ import ProcessDataComp from "../Components/ProcessDataComp"
 import CmBtn from "../Components/CmBtn"
 import { DailyActivityFun } from "../Toolkit/DailyActivitySlice"
 import dayjs from "dayjs"
+import GapTimeBar from "./GapTimeBar"
+import { allGapFun } from "../Toolkit/AllGapSlice"
+import { useParams } from "react-router-dom"
 
 const MainPage = () => {
+  const { useremail } = useParams()
   const [filterDate, setFilterDate] = useState(
     new Date().toISOString().split("T")[0]
   )
@@ -30,13 +34,20 @@ const MainPage = () => {
     loginTime: new Date(),
   })
 
-  
-
   const dispatch = useDispatch()
+
+  const gapParam = {
+    userMailId: useremail ? useremail : userEmail,
+    date: filterDate,
+  }
 
   useEffect(() => {
     dispatch(mainDataFun(userDate))
   }, [dispatch, dateFilterDep, startTimeDep])
+
+  useEffect(() => {
+    dispatch(allGapFun(gapParam))
+  }, [dispatch, filterDate])
 
   const mainData = useSelector((prev) => prev?.mainData?.mainApiData)
 
@@ -169,7 +180,7 @@ const MainPage = () => {
           contant={`${gapTime ? gapTime : "NULL "}`}
         />
       </div>
-
+      <GapTimeBar filterDate={filterDate} />
       <ProcessDataComp date={filterDate} dateFilterDep={dateFilterDep} />
     </CmGap>
   )

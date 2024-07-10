@@ -1,4 +1,3 @@
-// /gap-track/getUserGapData?userMailId=nishu.singh%40corpseed.com&date=2024-06-05
 
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { getQuery } from "../API/GetQuery"
@@ -9,7 +8,7 @@ export const allGapFun = createAsyncThunk(
   "all-gap-data",
   async ({ userMailId, date }) => {
     const allGapRes = await getQuery(
-      `${process.env.REACT_APP_BASE_URL}gap-track/gapActivity?email=${userMailId}&date=${date}`
+      `${process.env.REACT_APP_BASE_URL}gapActivity?email=${userMailId}&date=${date}`
     )
     return allGapRes?.data
   }
@@ -18,7 +17,6 @@ export const allGapFun = createAsyncThunk(
 export const editGaptimeReson = createAsyncThunk(
   "editGapReason",
   async (resp) => {
-    console.log('dkjshiasi',resp)
     const response = await userPutQuery(
       `${process.env.REACT_APP_BASE_URL}gap-track/editReason?userEmail=${resp.email}&gapId=${resp.gapId}`,
       resp?.data
@@ -26,6 +24,10 @@ export const editGaptimeReson = createAsyncThunk(
     return response.data
   }
 )
+
+
+
+
 
 export const AllGapSlice = createSlice({
   name: "gap",

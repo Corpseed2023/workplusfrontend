@@ -18,7 +18,7 @@ export const editGaptimeReson = createAsyncThunk(
   "editGapReason",
   async (resp) => {
     const response = await userPutQuery(
-      `${process.env.REACT_APP_BASE_URL}gap-track/editReason?userEmail=${resp.email}&gapId=${resp.gapId}`,
+      `${process.env.REACT_APP_BASE_URL}editReason?userEmail=${resp.email}&gapId=${resp.gapId}`,
       resp?.data
     )
     return response.data

@@ -12,6 +12,8 @@ import ProcessDataComp from "../Components/ProcessDataComp"
 import CmBtn from "../Components/CmBtn"
 import { getCurrentUserFun } from "../Toolkit/AllUsersSlice"
 import { useParams } from "react-router-dom"
+import GapTimeBar from "./GapTimeBar"
+import { allGapFun } from "../Toolkit/AllGapSlice"
 
 const SingleUserPage = () => {
   const [filterDate, setFilterDate] = useState(
@@ -68,6 +70,11 @@ const SingleUserPage = () => {
     email: useremail,
   }
 
+  const gapParam = {
+    userMailId: useremail ? useremail : userEmail,
+    date: filterDate,
+  }
+
   useEffect(() => {
     dispatch(getCurrentUserFun(useremail))
   }, [dispatch, useremail])
@@ -75,6 +82,10 @@ const SingleUserPage = () => {
   useEffect(() => {
     dispatch(mainDataAllFun(userDate))
   }, [dispatch, dateFilterDep])
+
+  useEffect(() => {
+    dispatch(allGapFun(gapParam))
+  }, [dispatch, filterDate])
 
   return (
     <CmGap>
@@ -174,7 +185,7 @@ const SingleUserPage = () => {
           contant={`${gapTime ? gapTime : "NULL"}`}
         />
       </div>
-
+      <GapTimeBar/>
       <ProcessDataComp
         date={filterDate}
         pro={singlePro}

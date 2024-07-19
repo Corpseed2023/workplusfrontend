@@ -10,15 +10,12 @@ import TableScalaton from "../Components/TableScalaton"
 import NoRecordAdded from "../Components/NoRecordAdded"
 import ScreenCard from "../Components/ScreenCard"
 import dayjs from "dayjs"
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
+import utc from "dayjs/plugin/utc"
+dayjs.extend(utc)
 const ScreenShotPage = () => {
   const [filterDate, setFilterDate] = useState(
     new Date().toISOString().split("T")[0]
   )
-
-
-
 
   const [dateFilterDep, setDateFilterDep] = useState(false)
   const { useremail } = useParams()
@@ -61,21 +58,19 @@ const ScreenShotPage = () => {
       {allScreenshot && !screenshotLoading && !screenshotError && (
         <div className="three-item">
           {allScreenshot?.map((img, index) => (
-            // <ScreenPhoto
-            //   key={index}
-            //   image={img?.screenshotUrl}
-            //   time={new Date(img?.screenshotTime).toLocaleTimeString()}
-            //   date={new Date(img?.screenshotTime).toLocaleDateString()}
-            // />
             <ScreenCard
               key={index}
               index={index}
               image={img?.screenshotUrl}
               id={img?.id}
-              // time={new Date(img?.screenshotTime).toLocaleTimeString()}
-              time={dayjs.utc(img?.screenshotTime).add(5, 'hour').format('hh:mm A')}
-              // date={new Date(img?.screenshotTime).toLocaleDateString()}
-              date={dayjs.utc(img?.screenshotTime).add(5, 'hour').format("DD/MM/YYYY")}
+              time={dayjs
+                .utc(img?.screenshotTime)
+                .add(5, "hour")
+                .format("hh:mm A")}
+              date={dayjs
+                .utc(img?.screenshotTime)
+                .add(5, "hour")
+                .format("DD/MM/YYYY")}
             />
           ))}
         </div>
@@ -85,3 +80,4 @@ const ScreenShotPage = () => {
 }
 
 export default ScreenShotPage
+

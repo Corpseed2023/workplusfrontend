@@ -1,4 +1,3 @@
-
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { getQuery } from "../API/GetQuery"
 import { putQuery } from "../API/PutQuery"
@@ -18,16 +17,12 @@ export const editGaptimeReson = createAsyncThunk(
   "editGapReason",
   async (resp) => {
     const response = await userPutQuery(
-      `${process.env.REACT_APP_BASE_URL}editReason?userEmail=${resp.email}&gapId=${resp.gapId}`,
+      `${process.env.REACT_APP_BASE_URL}editReason?userEmail=${resp.email}&lastOfflineId=${resp?.lastOfflineId}&lastOnlineId=${resp?.lastOnlineId}&date=${resp?.date}`,
       resp?.data
     )
-    return response.data
+    return response
   }
 )
-
-
-
-
 
 export const AllGapSlice = createSlice({
   name: "gap",

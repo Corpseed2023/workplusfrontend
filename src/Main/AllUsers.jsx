@@ -9,22 +9,11 @@ import {
   handlePrevPagination,
 } from "../Toolkit/AllUsersSlice"
 import { useDispatch, useSelector } from "react-redux"
-import TableComp from "../Components/TableComp"
-import CmModel from "../Model/CmModel"
-import CreateUserModel from "../Model/CreateUserModel"
 import { Link, useLocation } from "react-router-dom"
-import {
-  Button,
-  FloatButton,
-  Modal,
-  Popconfirm,
-  Typography,
-  notification,
-} from "antd"
+import { Button, FloatButton, Popconfirm, Typography, notification } from "antd"
 import CreateUserNEditModal from "../Model/CreateUserNEditModal"
 import { Icon } from "@iconify/react"
 import CommonTable from "../Components/CommonTable"
-import { render } from "@testing-library/react"
 const { Text } = Typography
 
 const AllUsers = () => {
@@ -39,14 +28,9 @@ const AllUsers = () => {
 
   console.log(pathname)
 
-  const {
-    deleteUser,
-    deluserLoading,
-    delUserError,
-    multiUserDeleteLoading,
-    multiUserDeleteError,
-    page,
-  } = useSelector((prev) => prev?.alluser)
+  const { deleteUser, multiUserDeleteLoading, page } = useSelector(
+    (prev) => prev?.alluser
+  )
 
   useEffect(() => {
     dispatch(allUsersFun(page))
@@ -61,76 +45,6 @@ const AllUsers = () => {
   // const editExistUserFun = async () => {
   //   console.log("Edit User")
   // }
-
-  const columns = [
-    // { field: "id",
-    //  headerName: "ID", width: 60
-    // },
-    {
-      field: "username",
-      headerName: "User Name",
-      width: 200,
-      renderCell: (props) => (
-        <Link to={`${props?.row?.email}`}>{props.row.username}</Link>
-      ),
-    },
-    { field: "email", headerName: "Email ID", width: 300 },
-    {
-      field: "createdAt",
-      headerName: "Created Date",
-      width: 150,
-      renderCell: (props) => (
-        <p>{new Date(props?.row?.createdAt).toLocaleDateString()}</p>
-      ),
-    },
-    {
-      field: "role",
-      headerName: "Role",
-      width: 100,
-      renderCell: (props) => <p>{props?.row?.roles}</p>,
-    },
-    {
-      field: "gap",
-      headerName: "Gap",
-      width: 100,
-      renderCell: (props) => (
-        <Link to={`gap/${props?.row?.email}`}>
-          <Button size="small" type="primary">
-            View Gap
-          </Button>
-        </Link>
-      ),
-    },
-    {
-      field: "Edit",
-      headerName: "Edit",
-      width: 90,
-      renderCell: (props) => (
-        <CreateUserNEditModal
-          data={props?.row}
-          edit={true}
-          modalTitle={"Edit user"}
-        />
-      ),
-    },
-    {
-      field: "Delete",
-      headerName: "Delete",
-      width: 90,
-      renderCell: (props) => (
-        // <p onClick={() => deleteExistUserFun(props?.row?.id)}>
-        //   <i className="fa-solid fa-trash"></i>
-        // </p>
-        <Button
-          danger
-          size="small"
-          onClick={() => deleteExistUserFun(props?.row?.id)}
-        >
-          <Icon icon="fluent:delete-20-filled" />
-        </Button>
-      ),
-    },
-  ]
 
   const columns1 = [
     {
@@ -159,9 +73,19 @@ const AllUsers = () => {
       key: "4",
     },
     {
+      title: "Screenshot",
+      dataIndex: "screenshot",
+      key: "5",
+      render: (_, data) => (
+        <Link to={`screenshot/${data?.email}`}>
+          <Button>screenshot</Button>
+        </Link>
+      ),
+    },
+    {
       title: "Gap",
       dataIndex: "gap",
-      key: "5",
+      key: "6",
       render: (_, data) => (
         <Link to={`gap/${data?.email}`}>
           <Button size="small" type="primary">
@@ -173,7 +97,7 @@ const AllUsers = () => {
     {
       title: "Edit",
       dataIndex: "edit",
-      key: "6",
+      key: "7",
       render: (_, data) => (
         <CreateUserNEditModal
           data={data}
@@ -185,11 +109,12 @@ const AllUsers = () => {
     {
       title: "Delete",
       dataIndex: "delete",
-      key: "7",
+      key: "8",
       render: (_, data) => (
         <Button
           danger
           size="small"
+          type="text"
           onClick={() => deleteExistUserFun(data?.id)}
         >
           <Icon icon="fluent:delete-20-filled" />
@@ -229,24 +154,10 @@ const AllUsers = () => {
               : "All Users Screenshot"
           }
         />
-        {/* <CmModel
-          data={`Create New user`}
-          modelhead={"create User"}
-          modelId={`createUserModel`}
-        >
-          <CreateUserModel />
-        </CmModel> */}
-
-        <CreateUserNEditModal edit={false} modalTitle={"Create user"} />
+        {pathname === "/workplus/users" && (
+          <CreateUserNEditModal edit={false} modalTitle={"Create user"} />
+        )}
       </div>
-      {/* <TableComp
-        loading={userLoading}
-        error={userError}
-        data={allUsers}
-        col={columns}
-        checkbox={pathname === "/workplus/users" ? true : false}
-        setSelectedRows={setSelectedRows}
-      /> */}
 
       <CommonTable
         dataSource={allUsers}

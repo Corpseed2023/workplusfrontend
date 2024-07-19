@@ -88,7 +88,7 @@ const GapTimeBar = ({ filterDate }) => {
     const updatedMinuteIntervals = replaceIntervals(intervals, gapDetails)
 
     setData(updatedMinuteIntervals)
-    console.log("gapTimeDetails", updatedMinuteIntervals)
+    console.log("gapTimeDetails", gapDetails, updatedMinuteIntervals)
   }, [minuteIntervals, gapDetails])
 
   const getColorBasedOnTime = (item, loginTime, logoutTime) => {
@@ -98,7 +98,11 @@ const GapTimeBar = ({ filterDate }) => {
     ) {
       return "#ffb3b3"
     } else if (item?.gap) {
-      return "#fff"
+      if (item?.reason !== null) {
+        return "#b3ff99"
+      } else if (item?.reason === null) {
+        return "#fff"
+      }
     } else if (
       dayjs(item?.startTime).format("YYYY-MM-DD HH:mm") >
       dayjs(logoutTime).format("YYYY-MM-DD HH:mm")
@@ -120,17 +124,20 @@ const GapTimeBar = ({ filterDate }) => {
     (values) => {
       let temp = {
         email: userEmail,
-        gapId: gapData?.lastOfflineId,
+        lastOfflineId: gapData?.lastOfflineId,
+        lastOnlineId: gapData?.lastOnlineId,
+        date: dayjs(gapData?.date).format("YYYY-MM-DD"),
         data: values,
       }
-      dispatch(editGaptimeReson(temp))
-      setOpenModal(false)
+      dispatch(editGaptimeReson(temp)).then((response) => {
+        if (response.meta.requestStatus === "fulfilled") {
+          window.location.reload()
+          setOpenModal(false)
+        }
+      })
     },
     [gapData, userEmail]
   )
-
-  console.log("dkjhjgdfagshd", filterDate)
-
   return (
     <div className="bar-container">
       <div className="bar-container-child">

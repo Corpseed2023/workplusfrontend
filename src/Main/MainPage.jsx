@@ -60,6 +60,7 @@ const MainPage = () => {
     attendanceType,
     gapTime,
     logoutTime,
+    productiveTime
   } = mainData
 
   console.log("maintimedata", loginTimeConvention)
@@ -178,6 +179,11 @@ const MainPage = () => {
           heading="Today's Break Time"
           data={fakeData}
           contant={`${gapTime ? gapTime : "NULL "}`}
+        />
+        <CardDesign
+          heading="Productive time"
+          data={fakeData}
+          contant={`${productiveTime ? productiveTime : "NULL "}`}
         />
       </div>
       <GapTimeBar filterDate={filterDate} />

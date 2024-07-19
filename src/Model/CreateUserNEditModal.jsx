@@ -49,7 +49,7 @@ const CreateUserNEditModal = ({ edit, data, modalTitle }) => {
     <>
       <Button
         onClick={() => setOpenModal(true)}
-        type={edit ? "default" : "primary"}
+        type={edit ? "text" : "primary"}
         size={edit ? "small" : "middle"}
       >
         {edit ? <Icon icon="fluent:edit-20-filled" /> : "Create user"}

@@ -96,11 +96,11 @@ const SideBar = () => {
         />
         {adminRole ? (
           <>
-            <SideBarBtn
+            {/* <SideBarBtn
               linkPath={`screenshot`}
               name="Screen Shot"
               icon={<i className="fa-regular fa-image"></i>}
-            />
+            /> */}
             <SideBarBtn
               linkPath={`users`}
               name="Users"

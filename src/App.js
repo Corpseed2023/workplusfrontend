@@ -49,7 +49,7 @@ function App() {
               <Route path="gap" element={<GapPage />} />
 
               <Route path="ipaddress" element={<AddNewIP />} />
-              <Route
+              {/* <Route
                 path="screenshot"
                 element={authStatus ? <AllUsers /> : <Navigate to="/login" />}
               />
@@ -58,7 +58,7 @@ function App() {
                 element={
                   authStatus ? <ScreenShotPage /> : <Navigate to="/login" />
                 }
-              />
+              /> */}
               <Route path="reports" element={<AllReportsUser />}>
                 <Route path="" element={<ReportsPage />} />
                 <Route
@@ -70,8 +70,13 @@ function App() {
 
               <Route path="userlist" element={<AllUsers />} />
               <Route path="userlist/:useremail" element={<GapPage />} />
-
               <Route path="users" element={<AllUsers />} />
+              <Route
+                path="users/screenshot/:useremail"
+                element={
+                  authStatus ? <ScreenShotPage /> : <Navigate to="/login" />
+                }
+              />
               <Route path="users/:useremail" element={<SingleUserPage />} />
               <Route path="users/gap/:useremail" element={<GapPage />} />
             </Route>

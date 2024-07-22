@@ -7,6 +7,11 @@ import { allReportsFun } from "../Toolkit/AllReportsSlice"
 import MdHeading from "../Components/MdHeading"
 import CmGap from "../Components/CmGap"
 import { allUserDataFun } from "../Toolkit/MonthlyDataSlice"
+import dayjs from "dayjs"
+import { Typography } from "antd"
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+const { Text } = Typography
 
 const MonthlyReport = () => {
   const [filterDate, setFilterDate] = useState("")
@@ -70,9 +75,9 @@ const MonthlyReport = () => {
       field: "date",
       headerName: "Date",
       width: 150,
-      renderCell: (props) => (
-        <p>{new Date(props?.row?.loginTime).toLocaleDateString()}</p>
-      ),
+      renderCell: (props) => {
+        ;<Text>{dayjs(props?.row?.loginTime).format("YYYY-MM-DD")}</Text>
+      },
     },
     {
       field: "totalTime",
@@ -92,16 +97,23 @@ const MonthlyReport = () => {
       field: "loginTime",
       headerName: "Login Time",
       width: 150,
-      renderCell: (props) => (
-        <p>{new Date(props?.row?.loginTime).toLocaleTimeString()}</p>
-      ),
+      renderCell: (props) => {
+        console.log("sdjkfgkjdsfkjds", props.row)
+        return (
+          <Text>
+            {dayjs(props?.row?.loginTime, "HH:mm:ss.SSSSSS").format("HH:mm")}
+          </Text>
+        )
+      },
     },
     {
       field: "logoutTime",
       headerName: "Left Time",
       width: 150,
       renderCell: (props) => (
-        <p>{new Date(props?.row?.logoutTime).toLocaleTimeString()}</p>
+        <Text>
+          {dayjs(props?.row?.logoutTime, "HH:mm:ss.SSSSSS").format("HH:mm")}
+        </Text>
       ),
     },
   ]

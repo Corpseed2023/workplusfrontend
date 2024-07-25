@@ -8,6 +8,12 @@ import CmBtn from "../Components/CmBtn"
 import TableScalaton from "../Components/TableScalaton"
 import NoRecordAdded from "../Components/NoRecordAdded"
 import CommonDataTable from "../data/CommonDataTable"
+import dayjs from "dayjs"
+import customParseFormat from "dayjs/plugin/customParseFormat"
+import { Typography } from "antd"
+import { formatTime } from "../Components/Global"
+dayjs.extend(customParseFormat)
+const { Text } = Typography
 
 const SingleUserMonthlyReport = () => {
   const [filterDate, setFilterDate] = useState("")
@@ -75,7 +81,7 @@ const SingleUserMonthlyReport = () => {
       headerName: "Date",
       width: 150,
       renderCell: (props) => (
-        <p>{new Date(props?.row?.loginTime).toLocaleDateString()}</p>
+        <Text>{dayjs(props?.row?.date).format("YYYY-MM-DD")}</Text>
       ),
     },
     {
@@ -97,7 +103,9 @@ const SingleUserMonthlyReport = () => {
       headerName: "Login Time",
       width: 150,
       renderCell: (props) => (
-        <p>{new Date(props?.row?.loginTime).toLocaleTimeString()}</p>
+        <Text>
+          {formatTime(props?.row?.loginTime)}
+        </Text>
       ),
     },
     {
@@ -105,7 +113,9 @@ const SingleUserMonthlyReport = () => {
       headerName: "Left Time",
       width: 150,
       renderCell: (props) => (
-        <p>{new Date(props?.row?.logoutTime).toLocaleTimeString()}</p>
+        <Text>
+          {formatTime(props?.row?.logoutTime)}
+        </Text>
       ),
     },
   ]

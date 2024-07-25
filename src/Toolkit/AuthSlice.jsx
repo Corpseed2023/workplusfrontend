@@ -13,7 +13,7 @@ export const forgotPassword = createAsyncThunk("forgotPass", async (data) => {
   const response = await postQuery(
     `${process.env.REACT_APP_BASE_URL}forgotPassword?email=${data?.email}&password=${data?.password}`
   )
-  return response.data
+  return response
 })
 
 export const AuthSlice = createSlice({

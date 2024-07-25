@@ -22,15 +22,19 @@ const ForgotPassword = () => {
   }
   const handleFinish = (values) => {
     dispatch(forgotPassword(values))
+      .then((response) => {
+        if (response.meta.requestStatus === "fulfilled") {
+          openNotificationWithIcon()
+          navigate("/login")
+        } else if (response.meta.requestStatus === "rejected") {
+          errorNotification()
+        }
+      })
+      .catch(() => {
+        errorNotification()
+      })
   }
-  useEffect(() => {
-    if (loading == "success") {
-      openNotificationWithIcon()
-      navigate("/login")
-    } else if (loading == "rejected") {
-      errorNotification()
-    }
-  },[loading])
+
   return (
     <div className="forgot-pass-container">
       <Title level={1}>Forgot Password</Title>

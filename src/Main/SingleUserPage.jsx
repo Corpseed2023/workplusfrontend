@@ -45,6 +45,7 @@ const SingleUserPage = () => {
     logoutTime,
     attendanceType,
     gapTime,
+    productiveTime
   } = mainData
 
   const filterCurrentData = () => {
@@ -184,8 +185,13 @@ const SingleUserPage = () => {
           data={fakeData}
           contant={`${gapTime ? gapTime : "NULL"}`}
         />
+        <CardDesign
+          heading="Productive time"
+          data={fakeData}
+          contant={`${productiveTime ? productiveTime : "NULL "}`}
+        />
       </div>
-      <GapTimeBar/>
+      <GapTimeBar />
       <ProcessDataComp
         date={filterDate}
         pro={singlePro}

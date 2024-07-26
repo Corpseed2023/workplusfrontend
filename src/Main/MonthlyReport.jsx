@@ -9,8 +9,7 @@ import CmGap from "../Components/CmGap"
 import { allUserDataFun } from "../Toolkit/MonthlyDataSlice"
 import dayjs from "dayjs"
 import { Typography } from "antd"
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-dayjs.extend(customParseFormat);
+import { formatTime } from "../Components/Global"
 const { Text } = Typography
 
 const MonthlyReport = () => {
@@ -58,7 +57,7 @@ const MonthlyReport = () => {
       headerName: "ID",
       width: 80,
       renderCell: (props) => (
-        <p>{props.row.index + 1}</p> // Adding 1 to make index 1-based
+        <p>{props.row.index + 1}</p> 
       ),
     },
     {
@@ -76,7 +75,7 @@ const MonthlyReport = () => {
       headerName: "Date",
       width: 150,
       renderCell: (props) => {
-        ;<Text>{dayjs(props?.row?.loginTime).format("YYYY-MM-DD")}</Text>
+        <Text>{dayjs(props?.row?.loginTime).format("YYYY-MM-DD")}</Text>
       },
     },
     {
@@ -98,10 +97,9 @@ const MonthlyReport = () => {
       headerName: "Login Time",
       width: 150,
       renderCell: (props) => {
-        console.log("sdjkfgkjdsfkjds", props.row)
         return (
           <Text>
-            {dayjs(props?.row?.loginTime, "HH:mm:ss.SSSSSS").format("HH:mm")}
+            {formatTime(props?.row?.loginTime)}
           </Text>
         )
       },
@@ -112,7 +110,7 @@ const MonthlyReport = () => {
       width: 150,
       renderCell: (props) => (
         <Text>
-          {dayjs(props?.row?.logoutTime, "HH:mm:ss.SSSSSS").format("HH:mm")}
+          {formatTime(props?.row?.logoutTime)}
         </Text>
       ),
     },

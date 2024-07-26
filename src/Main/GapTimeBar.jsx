@@ -2,9 +2,25 @@ import React, { useCallback, useEffect, useState } from "react"
 import dayjs from "dayjs"
 import "./GapTimeBar.scss"
 import { useDispatch, useSelector } from "react-redux"
-import { Form, Input, Modal, Typography } from "antd"
-import { editGaptimeReson } from "../Toolkit/AllGapSlice"
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  notification,
+  Space,
+  Typography,
+} from "antd"
+import {
+  allGapFun,
+  deleteGapActivity,
+  editGaptimeReson,
+} from "../Toolkit/AllGapSlice"
 const { Text, Title } = Typography
+notification.config({
+  top: 42,
+  placement: "top",
+})
 
 const GapTimeBar = ({ filterDate }) => {
   const dispatch = useDispatch()
@@ -129,15 +145,69 @@ const GapTimeBar = ({ filterDate }) => {
         date: dayjs(gapData?.date).format("YYYY-MM-DD"),
         data: values,
       }
-      dispatch(editGaptimeReson(temp)).then((response) => {
-        if (response.meta.requestStatus === "fulfilled") {
-          window.location.reload()
+      dispatch(editGaptimeReson(temp))
+        .then((response) => {
+          if (response.meta.requestStatus === "fulfilled") {
+            dispatch(
+              allGapFun({
+                userMailId: userEmail,
+                date: dayjs(gapData?.date).format("YYYY-MM-DD"),
+              })
+            )
+            notification.success({
+              message: "Gap reason added successfully",
+            })
+
+            setOpenModal(false)
+          } else if (response.meta.requestStatus === "rejected") {
+            notification.error({
+              message: "Something went wrong",
+            })
+          }
+        })
+        .catch(() => {
+          notification.error({
+            message: "Something went wrong",
+          })
+        })
+    },
+    [gapData, userEmail, dispatch]
+  )
+
+  const handleDelete = useCallback(() => {
+    let temp = {
+      email: userEmail,
+      lastOfflineId: gapData?.lastOfflineId,
+      lastOnlineId: gapData?.lastOnlineId,
+      date: dayjs(gapData?.date).format("YYYY-MM-DD"),
+      data: { reason: "" },
+    }
+    dispatch(deleteGapActivity(temp))
+      .then((resp) => {
+        if (resp.meta.requestStatus === "fulfilled") {
+          notification.success({
+            message: "Gap removed successfully",
+          })
+          dispatch(
+            allGapFun({
+              userMailId: userEmail,
+              date: dayjs(gapData?.date).format("YYYY-MM-DD"),
+            })
+          )
           setOpenModal(false)
+        } else if (resp.meta.requestStatus === "rejected") {
+          notification.error({
+            message: "Something went wrong",
+          })
         }
       })
-    },
-    [gapData, userEmail]
-  )
+      .catch(() => {
+        notification.error({
+          message: "Something went wrong",
+        })
+      })
+  }, [gapData, userEmail, dispatch])
+
   return (
     <div className="bar-container">
       <div className="bar-container-child">
@@ -167,10 +237,23 @@ const GapTimeBar = ({ filterDate }) => {
         title="Reason for gap time"
         open={openModal}
         onCancel={() => setOpenModal(false)}
-        onOk={() => form.submit()}
+        // onOk={() => form.submit()}
         centered
-        onClose={() => setOpenModal(false)}
-        okText="Submit"
+        footer={
+          <div className="gap-modal-footer">
+            <Button danger onClick={handleDelete}>
+              Delete
+            </Button>
+            <Space>
+              <Button onClick={() => setOpenModal(false)}>Cancel</Button>
+              <Button type="primary" onClick={() => form.submit()}>
+                Submit
+              </Button>
+            </Space>
+          </div>
+        }
+        // onClose={() => setOpenModal(false)}
+        // okText="Submit"
       >
         <Title level={5}>
           Date: {dayjs(gapData?.lastOfflineTime).format("DD-MM-YYYY")}

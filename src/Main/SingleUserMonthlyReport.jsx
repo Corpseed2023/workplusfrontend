@@ -8,6 +8,12 @@ import CmBtn from "../Components/CmBtn"
 import TableScalaton from "../Components/TableScalaton"
 import NoRecordAdded from "../Components/NoRecordAdded"
 import CommonDataTable from "../data/CommonDataTable"
+import dayjs from "dayjs"
+import customParseFormat from "dayjs/plugin/customParseFormat"
+import { Typography } from "antd"
+import { formatTime } from "../Components/Global"
+dayjs.extend(customParseFormat)
+const { Text } = Typography
 
 const SingleUserMonthlyReport = () => {
   const [filterDate, setFilterDate] = useState("")
@@ -54,7 +60,7 @@ const SingleUserMonthlyReport = () => {
   const columns = [
     {
       field: "index",
-      headerName: "ID",
+      headerName: "Id",
       width: 80,
       renderCell: (props) => (
         <p>{props.row.index + 1}</p> // Adding 1 to make index 1-based
@@ -62,12 +68,12 @@ const SingleUserMonthlyReport = () => {
     },
     {
       field: "userName",
-      headerName: "User Name",
+      headerName: "User name",
       width: 240,
     },
     {
       field: "userEmail",
-      headerName: "User Email",
+      headerName: "User email",
       width: 240,
     },
     {
@@ -75,18 +81,18 @@ const SingleUserMonthlyReport = () => {
       headerName: "Date",
       width: 150,
       renderCell: (props) => (
-        <p>{new Date(props?.row?.loginTime).toLocaleDateString()}</p>
+        <Text>{dayjs(props?.row?.date).format("YYYY-MM-DD")}</Text>
       ),
     },
     {
       field: "totalTime",
-      headerName: "Total Working Time",
+      headerName: "Total working time",
       width: 150,
       renderCell: (props) => <p>{props?.row?.totalTime}</p>,
     },
     {
       field: "present",
-      headerName: "User Present",
+      headerName: "User present",
       width: 150,
       renderCell: (props) => (
         <p>{props?.row?.present ? "Present" : "Absent"}</p>
@@ -94,19 +100,29 @@ const SingleUserMonthlyReport = () => {
     },
     {
       field: "loginTime",
-      headerName: "Login Time",
+      headerName: "Login time",
       width: 150,
       renderCell: (props) => (
-        <p>{new Date(props?.row?.loginTime).toLocaleTimeString()}</p>
+        <Text>
+          {formatTime(props?.row?.loginTime)}
+        </Text>
       ),
     },
     {
       field: "logoutTime",
-      headerName: "Left Time",
+      headerName: "Left time",
       width: 150,
       renderCell: (props) => (
-        <p>{new Date(props?.row?.logoutTime).toLocaleTimeString()}</p>
+        <Text>
+          {formatTime(props?.row?.logoutTime)}
+        </Text>
       ),
+    },
+    {
+      field: "productiveTime",
+      headerName: "Productive time",
+      width: 150,
+     
     },
   ]
 
@@ -118,7 +134,7 @@ const SingleUserMonthlyReport = () => {
   return (
     <>
       <div className="align-between">
-        <MdHeading data={`User Monthly Report`} />
+        <MdHeading data={`User monthly report`} />
         <div>
           <input
             type="month"

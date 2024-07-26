@@ -14,6 +14,7 @@ import { getCurrentUserFun } from "../Toolkit/AllUsersSlice"
 import { useParams } from "react-router-dom"
 import GapTimeBar from "./GapTimeBar"
 import { allGapFun } from "../Toolkit/AllGapSlice"
+import dayjs from "dayjs"
 
 const SingleUserPage = () => {
   const [filterDate, setFilterDate] = useState(
@@ -45,6 +46,7 @@ const SingleUserPage = () => {
     logoutTime,
     attendanceType,
     gapTime,
+    productiveTime,
   } = mainData
 
   const filterCurrentData = () => {
@@ -117,12 +119,8 @@ const SingleUserPage = () => {
           data={fakeData}
           contant={
             loginTime !== null
-              ? new Date(loginTime).getHours().toString().padStart(2, "0") +
-                ":" +
-                new Date(loginTime).getMinutes().toString().padStart(2, "0") +
-                " " +
-                loginTimeConvention
-              : "NULL"
+              ? dayjs(loginTime).format("hh:mm A").toLowerCase()
+              : "null"
           }
         />
         <CardDesign
@@ -130,12 +128,8 @@ const SingleUserPage = () => {
           data={fakeData}
           contant={
             logoutTime !== null
-              ? new Date(logoutTime).getHours().toString().padStart(2, "0") +
-                ":" +
-                new Date(logoutTime).getMinutes().toString().padStart(2, "0") +
-                " " +
-                logoutTimeConvention
-              : "NULL"
+              ? dayjs(logoutTime).format("hh:mm A").toLowerCase()
+              : "null"
           }
         />
         <CardDesign
@@ -184,8 +178,13 @@ const SingleUserPage = () => {
           data={fakeData}
           contant={`${gapTime ? gapTime : "NULL"}`}
         />
+        <CardDesign
+          heading="Productive time"
+          data={fakeData}
+          contant={`${productiveTime ? productiveTime : "NULL "}`}
+        />
       </div>
-      <GapTimeBar/>
+      <GapTimeBar />
       <ProcessDataComp
         date={filterDate}
         pro={singlePro}

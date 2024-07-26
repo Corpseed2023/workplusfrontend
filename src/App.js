@@ -23,23 +23,27 @@ function App() {
 
   return (
     <div className="App">
-      <ConfigProvider theme={{
-        components:{
-          Card:{
-            colorBorderSecondary:'#c6c8cb',
-            padding:8,
-            actionsLiMargin:0,
-            borderRadius:4,
-            borderRadiusLG:6,
-          }
-        }
-      }}>
+      <ConfigProvider
+        theme={{
+          token: {
+            borderRadius: 4,
+            colorBorder: "#cccccc",
+          },
+          components: {
+            Card: {
+              colorBorderSecondary: "#c6c8cb",
+              padding: 8,
+              actionsLiMargin: 0,
+            },
+          },
+        }}
+      >
         <BrowserRouter>
           <Routes>
             <Route path="" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/forgotPassword" element={<ForgotPassword/>} />
+            <Route path="/forgotPassword" element={<ForgotPassword />} />
 
             <Route
               path="/workplus"

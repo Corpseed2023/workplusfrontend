@@ -60,7 +60,7 @@ const SingleUserMonthlyReport = () => {
   const columns = [
     {
       field: "index",
-      headerName: "ID",
+      headerName: "Id",
       width: 80,
       renderCell: (props) => (
         <p>{props.row.index + 1}</p> // Adding 1 to make index 1-based
@@ -68,12 +68,12 @@ const SingleUserMonthlyReport = () => {
     },
     {
       field: "userName",
-      headerName: "User Name",
+      headerName: "User name",
       width: 240,
     },
     {
       field: "userEmail",
-      headerName: "User Email",
+      headerName: "User email",
       width: 240,
     },
     {
@@ -86,13 +86,13 @@ const SingleUserMonthlyReport = () => {
     },
     {
       field: "totalTime",
-      headerName: "Total Working Time",
+      headerName: "Total working time",
       width: 150,
       renderCell: (props) => <p>{props?.row?.totalTime}</p>,
     },
     {
       field: "present",
-      headerName: "User Present",
+      headerName: "User present",
       width: 150,
       renderCell: (props) => (
         <p>{props?.row?.present ? "Present" : "Absent"}</p>
@@ -100,7 +100,7 @@ const SingleUserMonthlyReport = () => {
     },
     {
       field: "loginTime",
-      headerName: "Login Time",
+      headerName: "Login time",
       width: 150,
       renderCell: (props) => (
         <Text>
@@ -110,13 +110,19 @@ const SingleUserMonthlyReport = () => {
     },
     {
       field: "logoutTime",
-      headerName: "Left Time",
+      headerName: "Left time",
       width: 150,
       renderCell: (props) => (
         <Text>
           {formatTime(props?.row?.logoutTime)}
         </Text>
       ),
+    },
+    {
+      field: "productiveTime",
+      headerName: "Productive time",
+      width: 150,
+     
     },
   ]
 
@@ -128,7 +134,7 @@ const SingleUserMonthlyReport = () => {
   return (
     <>
       <div className="align-between">
-        <MdHeading data={`User Monthly Report`} />
+        <MdHeading data={`User monthly report`} />
         <div>
           <input
             type="month"

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { getQuery } from "../API/GetQuery"
 import { putQuery } from "../API/PutQuery"
 import { userPutQuery } from "../API/UserPutQuery"
+import { deleteQuery } from "../API/DeleteQuery"
 
 export const allGapFun = createAsyncThunk(
   "all-gap-data",
@@ -19,6 +20,17 @@ export const editGaptimeReson = createAsyncThunk(
     const response = await userPutQuery(
       `${process.env.REACT_APP_BASE_URL}editReason?userEmail=${resp.email}&lastOfflineId=${resp?.lastOfflineId}&lastOnlineId=${resp?.lastOnlineId}&date=${resp?.date}`,
       resp?.data
+    )
+    return response
+  }
+)
+
+export const deleteGapActivity = createAsyncThunk(
+  "deleteGapActivity",
+  async (data) => {
+    const response = await deleteQuery(
+      `${process.env.REACT_APP_BASE_URL}deleteGap?userEmail=${data?.email}&lastOfflineId=${data?.lastOfflineId}&lastOnlineId=${data?.lastOnlineId}&date=${data?.date}`,
+      data.data
     )
     return response
   }
